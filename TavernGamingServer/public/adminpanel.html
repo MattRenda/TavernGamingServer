@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="style/disputes.css">
+
+		<script src="https://kit.fontawesome.com/4e5174e0e9.js" crossorigin="anonymous"></script>
+
+		<title>Admin Panel | Tokens</title>
+		<link rel="shortcut icon" type="image/jpg" href="/logo/256.png"/>
+	</head>
+
+	<body>
+        <input type="text" id="noteTextBox">Add Note</input>
+        <button id="submit" onclick="addNote()">Submit</button>
+        <br/>
+        <input type="text" id="referralTextBox">Create Referral Code</input>
+        <button id="submit" onclick="addCode()">Submit</button>
+        <br/>
+        <br/>
+        <button id="verify" onclick="verifyUser()">Verify User</button>
+        <br/>
+
+        <h3 id="errorMsg"></h3>
+        <h3>Notes: </h3>
+        <div id="usernotes"></div>
+        <h1>User Information</h1>
+        <div id="userinfo">
+        
+
+        </div>
+            
+        <h1 id="userheader"></h1>
+        </div>
+        <h1>User's Match history</h1>
+        
+        <div id="history">
+        
+        </div>
+        
+
+        <script>
+
+            var username=prompt("Enter username to search");
+            
+            function verifyUser() {
+            var xhr = new XMLHttpRequest();
+                xhr.open("POST", '/verifyUserPanel' + "?user=" + username, true);
+               // // console.log
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        document.getElementById("errorMsg").innerHTML = "Successfully verified user.";
+                    } else if (xhr.status == 409) {
+                        document.getElementById("history").innerHTML = "There was an error verifying this user.";
+                    }
+                };
+                xhr.send(JSON.stringify({
+					user: username,
+				}));
+           }
+
+           function addNote() {
+            var xhr = new XMLHttpRequest();
+                xhr.open("POST", '/addNote' + "?user=" + username, true);
+               // // console.log
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        document.getElementById("errorMsg").innerHTML = "Successfully posted note.";
+                    } else if (xhr.status == 409) {
+                        document.getElementById("history").innerHTML = "There was an error posting your note. Please make sure you have sufficient permissions.";
+                    }
+                };
+
+                xhr.send(JSON.stringify({
+					note: document.getElementById("noteTextBox").value,
+				}));
+                loadNotes();
+           }
+           function addCode() {
+            var code = document.getElementById("referralTextBox").value;
+            var xhr = new XMLHttpRequest();
+                xhr.open("POST", '/addCode' + "?code=" + code, true);
+               // // console.log
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        document.getElementById("errorMsg").innerHTML = "Successfully posted code.";
+                    } else if (xhr.status == 409) {
+                        document.getElementById("history").innerHTML = "There was an error posting your code. Please make sure you have sufficient permissions.";
+                    }
+                };
+
+                xhr.send(JSON.stringify({
+					code: document.getElementById("referralTextBox").value,
+				}));
+           }
+
+
+
+
+
+
+           function loadNotes() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", '/getNotes' + "?user=" + username, true);
+               // // console.log
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        processNotes(JSON.parse(xhr.responseText));
+                    } else if (xhr.status == 409) {
+                        document.getElementById("history").innerHTML = "There was an error retrieving disputes, make sure you have moderator permissions.";
+                    }
+                };
+
+                xhr.send();
+            }
+
+           function loadUserInfo() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", '/getAdminStats' + "?user=" + username, true);
+               // // console.log
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        processAdminStats(JSON.parse(xhr.responseText));
+                    } else if (xhr.status == 409) {
+                        document.getElementById("history").innerHTML = "There was an error retrieving disputes, make sure you have moderator permissions.";
+                    }
+                };
+
+                xhr.send();
+                loadNotes();
+            }
+            function urlify(text) {
+            var urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+            return text.replace(urlRegex, function(url) {
+                return '<a href="' + url + '">' + url + '</a>';
+            })
+            // or alternatively
+            // return text.replace(urlRegex, '<a href="$1">$1</a>')
+            }
+
+
+          function processNotes(response) {
+              let result = "<ul>"
+                for (let i = 0; i < response.length; i++) {                     
+                    result += "<li>" + response[i] + "</li>";
+                    }       
+                result += "</ul>"
+                document.getElementById("usernotes").innerHTML = result;
+                }
+               
+
+            function processAdminStats(response) {
+                //var history = JSON.stringify(response);
+
+                    //document.getElementById("userheader").innerHTML = "<p>test</p>";
+                    document.getElementById("userinfo").innerHTML += "<b> Username: " + response.username + "<br/>";
+                    document.getElementById("userinfo").innerHTML += "<b> Balance: " + response.balance + "<br/>";
+                    document.getElementById("userinfo").innerHTML += "<b> Max Withdrawal: " + response.max_withdrawal + "<br/>";
+                    document.getElementById("userinfo").innerHTML += "<b> Epic: " + response.epic + "<br/>";                
+                    document.getElementById("userinfo").innerHTML += "<b> Is Banned: " + response.is_banned + "<br/>";
+                    document.getElementById("userinfo").innerHTML += "<b> Role: " + response.role + "<br/>";
+
+                        
+                    let result = "<table style='border-left:1px solid #colour'>"
+                    result += `<td> Match URL </td>`;
+                    result += `<td> Date </td>`;
+                    result += `<td> Entry Fee </td>`;
+                    result += `<td> Game Mode </td> `;   
+
+                for (let i = 0; i < response.match_history.length; i++) { 
+
+                                   
+                    if (response.match_history[i].wager_id != undefined)  {
+                        result += `<tr><td>` + response.match_history[i].wager_id +`</td>`
+                    }
+                   else {
+                       result+= `<tr><td>-</td>`
+                   }
+                   if (response.match_history[i].date != undefined)  {
+                        result += `<td>` + response.match_history[i].date +`</td>`
+                    }
+                   else {
+                       result+= `<td>-</td>`
+                   }
+                   if (response.match_history[i].entry_fee != undefined)  {
+                        result += `<td>` + response.match_history[i].entry_fee +`</td>`
+                    }
+                   else {
+                       result+= `<td>-</td>`
+                   }
+                   if (response.match_history[i].game_mode != undefined)  {
+                        result += `<td>` + response.match_history[i].game_mode +`</td>`
+                    }
+                   else {
+                       result+= `<td>-</td>`
+                   }
+                   
+                    // result += `<td>` + response.match_history[i].date + ` </td>`;
+                    // result += `<td>` + response.match_history[i].date + ` </td>`;
+                    // result += `<td>` + response.match_history[i].entry_fee + ` </td>`;
+                    // result += `<td>` + response.match_history[i].game_mode + ` </td>`;
+                    }       
+                    result += ` </tr></table>`
+                    var urlified = urlify(result);
+                    document.getElementById("history").innerHTML = urlified;
+                }
+
+
+
+           
+
+            window.onload = loadUserInfo();
+         
+            
+        </script>
+    </body>
+
+</html>

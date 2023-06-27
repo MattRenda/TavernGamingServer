@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <script src="https://kit.fontawesome.com/4e5174e0e9.js" crossorigin="anonymous"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="style/withdraw.css">
+
+		<title>Withdraw | Tokens</title>
+		<link rel="shortcut icon" type="image/jpg" href="/logo/256.png"/>
+    </head>
+
+    <body>
+        <div id="container">
+
+            <h1>Profile</h1>
+            <a href="/dashboard" id="dash">Back to Dashboard</a>
+            <div id="links">
+                <a href="/teams" class="link">Teams</a>
+                <a href="/deposit" class="link">Deposit</a>
+                <a href="/withdraw" class="link link-selected">Withdraw</a>
+                <a href="/epic" class="link">Epic Account</a>
+                <a href="/logout" class="link logout">Log Out</a>
+            </div>
+
+            <h2>Withdraw to PayPal or CashApp</h2>
+            <p>Fees: 10% on CashApp Withdrawals. $2 + 10% on Paypal Withdrawals.</p>
+            <p id="error" style="display: none"></p>
+            <p id="success" style="display: none">Successfully withdrew funds, please expect payment in 1-3 days.</p>
+            <input id="paypal-email" placeholder="Paypal Email  / Cash Tag">
+            <input id="amount" placeholder="Amount to Withdraw ($)">
+            <a href="#" id="withdraw">Withdraw</a>
+        </div>
+
+        <script>
+
+            function error(msg) {
+                var errorE = document.getElementById("error");
+                errorE.innerHTML = msg;
+                errorE.style.display = "block";
+            }
+
+            function success() {
+                document.getElementById("error").style.display = "none";
+                document.getElementById("success").style.display = "block";
+            }
+
+            function withdraw() {
+
+                var paypal = document.getElementById("paypal-email").value;
+                var amount = document.getElementById("amount").value;
+                if (!paypal || !amount) {
+                    error("Please enter a paypal email address, or a cash tag.");
+                }
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", '/withdraw', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if(xhr.status == 200) {
+                        document.getElementById("paypal-email").value = "";
+                        success();
+                    } else if(xhr.status == 409) {
+                        error(xhr.responseText);
+                    }
+                };
+                xhr.send(JSON.stringify({
+                    'email': paypal,
+                    'amount': amount
+                }));
+
+            }
+
+            function init() {
+                document.getElementById("withdraw").onclick = withdraw;
+            }
+
+            window.onload = init;
+        </script>
+    </body>
+
+</html>

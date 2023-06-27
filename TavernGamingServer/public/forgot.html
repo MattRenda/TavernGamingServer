@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style/login.css" />
+
+    <title>Login | Tokens</title>
+    <link rel="shortcut icon" type="image/jpg" href="/logo/256.png" />
+
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-TK8GG8P49J"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-TK8GG8P49J");
+    </script>
+  </head>
+
+  <body>
+    <form action="/forgot" method="post">
+      <input type="hidden" id="userEmail" name="userEmail" />
+      <h3>Forgot Password</h3>
+
+      <label style="display: none" id="error-message"></label>
+
+      <div class="field">
+        <input
+          type="text"
+          name="email"
+          onkeyup="this.value = this.value.toLowerCase();"
+          id="email"
+          required
+        />
+        <label>email</label>
+      </div>
+
+      <div class="field">
+        <input id="submit-btn" type="submit" value="Submit" />
+      </div>
+
+      <p class="signup">
+        Don't need to reset your password? <a href="/login">Login</a>
+      </p>
+    </form>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const info = urlParams.get("info");
+      // console.log('info');
+
+      if (info) {
+        const errorMessage = document.getElementById("error-message");
+        errorMessage.innerText = info;
+        errorMessage.style.display = "block";
+      }
+
+      function getParams() {
+        let params = new URLSearchParams(window.location.search);
+        params.set("email", document.getElementById("email").value);
+        var y = urlParams.get("email");
+        // console.log(y);
+        // console.log(params);
+      }
+    </script>
+  </body>
+</html>

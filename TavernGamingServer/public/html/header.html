@@ -1,0 +1,51 @@
+<div id="header">
+    <div id="header-box">
+
+      <img src="/logo/256.png" id="logo">
+      <h2><%=site_name%></h2>
+
+      <div id="account">
+<head>
+          <div id="error-box">
+            <p id="error"><b>Error:</b> Placeholder error, server returned null</p>
+            <i class="fa fa-times" id="error-close"></i>
+          </div>
+          </head>
+          <i id="noti-bell" class="fa fa-bell" align="left"></i>
+          <div id="noti-bubble"></div>
+          <div class="right">
+              <h4><%=account_name%></h4>
+              <p>Balance: <b><span class="balance"><%=balance%></span></b></p>
+          </div>
+          <div id="noti-container" class="popup-container">
+            <div id="noti-triangle"></div>
+            <div id="notis">
+
+
+            </div>
+          </div>
+
+          <a id="profile"><i class="fa fa-user"></i> Profile</a>
+      </div>
+
+    </div>
+
+    <script>
+
+      function error(text) {
+        document.getElementById("error-box").style.display = "block";
+        document.getElementById("error").innerHTML = "<b>Error: </b>" + text;
+      }
+
+      function closeError(e) {
+        document.getElementById("error-box").style.display = "none";
+        document.getElementById("error").innerHTML = "";
+      }
+
+      document.getElementById("error-close").onclick = closeError;
+      document.getElementById("profile").onclick = function() {
+        window.location.href = "/teams";
+      }
+
+    </script>
+</div>

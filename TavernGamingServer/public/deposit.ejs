@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <script src="https://kit.fontawesome.com/4e5174e0e9.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="style/css">
+
+		<title>Deposit | Tokens</title>
+		<link rel="shortcut icon" type="image/jpg" href="/logo/256.png"/>
+  </head>
+
+  <body>
+
+    <center><h2 style="display: none" id="username"><%=account_name%></h2></center>
+    
+
+
+      
+      <p id="error" style="display: none">There was an error processing your payment.</p>
+
+     
+
+      
+
+
+      <div id="amount-options">
+        
+        <div id="amount-10" class="amount-selector">$10</div>
+        <div id="amount-15" class="amount-selector selected">$15</div>
+        <div id="amount-25" class="amount-selector">$25</div>
+        <div id="amount-50" class="amount-selector">$50</div>
+        <div id="amount-other" class="amount-selector">Other</div>
+        
+        <input id="amount-other-input" placeholder="Amount, ex. 10.00" style="display: none" onchange='getAmount()'>
+        <div id="paypal-button-container"></div>
+        <!-- //<p>Deposits currently disabled.</p> -->
+        
+      </div>
+     
+    <div style="text-align:center;">
+     <center> <button class="poof" id="poof" onclick="request(), showAlert()"></button></center>
+      <div id="checkoutFrame" class="checkoutFrame"></div>
+
+      <script src="https://www.paypal.com/sdk/js?client-id=DISABLED&enable-funding=venmo&disable-funding=credit"></script>
+
+      <script src="https://www.poof.io/static/api/checkout.js" ></script>
+      <script src="https://www.poof.io/static/api/sdk.js"></script>
+    
+     
+      <script>
+      
+      let username = document.getElementById("username").value;
+      // console.log(username);
+      // console.log("<%=account_name%>")
+     
+      let payload = { "username": "arya", "amount": 0, "redirect": "https://tkns.gg/dashboard", "default": {"name": "<%=account_name%>"} }; 
+ 
+ 
+
+    //   function alertFunc() {
+    //   alert("Please ensure that the Name field is your Tkns.gg username. Feel free to use any email you like.");
+    //   }
+    //  function showAlert() {
+
+    //   setTimeout(alertFunc, 2000);
+    //  }
+
+      function error(e) {
+        document.getElementById("error").style.display = "block";
+        document.getElementById("error").innerHTML = e;
+      }
+
+      function success() {
+        location.href = "/dashboard";
+      }
+
+      function clearSelected() {
+        var elems = document.getElementsByClassName("selected");
+        for (var i = 0; i < elems.length; i++) {
+          elems[i].classList.remove("selected");
+        }
+      }
+
+      function amountClick() {
+        clearSelected();
+        this.classList.add("selected");
+
+
+        if (this.id === "amount-other") {
+          document.getElementById("amount-other-input").style.display = "block";
+        } else {
+          document.getElementById("amount-other-input").style.display = "none";
+        }
+        GetDepositString();
+      }
+
+      function getAmount() {
+        var selected = document.getElementsByClassName("selected")[0];
+       
+        if (selected.id === "amount-10") {
+          payload.amount = 10;
+          return 10;
+        } else if (selected.id === "amount-15") {
+          payload.amount = 15;
+          return 15;
+        } else if (selected.id === "amount-25") {
+          payload.amount = 25;
+          return 25;
+        } else if (selected.id === "amount-50") {
+          payload.amount = 50;
+          return 50;
+        } else if (selected.id === "amount-other") {
+          var inputValue = document.getElementById("amount-other-input").value;
+          if (parseFloat(inputValue) >= 5) {
+            payload.amount = parseFloat(inputValue);
+          }
+          else {
+          return error("Deposit amount must be a value between 5 and 100");
+          }
+          if (isNaN(inputValue)) {
+            return -1;
+          }
+          return parseFloat(inputValue);
+        }
+      }
+
+       function GetDepositString() {
+        var amount = getAmount();
+
+        if (amount < 5 || amount > 100) {
+          return error("Deposit amount must be a value between 5 and 100");
+        }
+
+        return amount.toString()
+      }
+
+      var elems = document.getElementsByClassName("amount-selector");
+      for (var i = 0; i < elems.length; i++) {
+        elems[i].onclick = amountClick;
+      }
+
+      
+     
+      </script>
+
+  
+
+      <script>
+
+      function transactionSuccess(details) {
+        // console.log(details);
+        var xhr = new XMLHttpRequest();
+	      xhr.open("POST", '/confirmDeposit', true);
+	      xhr.setRequestHeader('Content-Type', 'application/json');
+	      xhr.onload = function() {
+	        if (xhr.status == 200) {
+						success();
+	        } else if (xhr.status == 409) {
+	          error("Unfortunately, there was an error processing your payment. Please create a ticket in our discord if this problem persists.");
+	        }
+	      };
+	      xhr.send(JSON.stringify({
+					'a': JSON.stringify(details.purchase_units[0])
+				}));
+      }
+
+      paypal.Buttons({
+
+        style: {
+          layout:  'vertical',
+          color:   'gold',
+          shape:   'rect',
+          label:   'paypal'
+        },
+
+        createOrder: function(data, actions) {
+          // This function sets up the details of the transaction, including the amount and line item details.
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: GetDepositString()
+              }
+            }]
+          });
+        },
+
+        onApprove: function(data, actions) {
+          // This function captures the funds from the transaction.
+          return actions.order.capture().then(function(details) {
+            transactionSuccess(details);
+          });
+        }
+
+
+      }).render('#paypal-button-container');
+      </script>
+
+
+
+<center><h3 id="username">Make sure it is ALL LOWERCASE and NO EXTRA SPACES. </h3></center>
+
+
+    
+  </body>
+
+</html>

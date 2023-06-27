@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script
+      src="https://kit.fontawesome.com/4e5174e0e9.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style/epic.css" />
+
+    <title>Epic Account | Tokens</title>
+    <link rel="shortcut icon" type="image/jpg" href="/logo/256.png" />
+  </head>
+
+  <body>
+    <div id="container">
+      <h1>Profile</h1>
+      <a href="/dashboard" id="dash">Back to Dashboard</a>
+      <div id="links">
+        <a href="/teams" class="link">Teams</a>
+        <a href="/deposit" class="link">Deposit</a>
+        <a href="/withdraw" class="link">Withdraw</a>
+        <a href="/epic" class="link link-selected">Epic Account</a>
+        <a href="/logout" class="link logout">Log Out</a>
+      </div>
+
+      <h2>Epic Games Username</h2>
+      <p id="curr"><b>Current username: </b></p>
+      <p id="error" style="display: none"></p>
+      <input id="username" placeholder="Username" />
+      <!-- <input id="epicId" placeholder="id"> -->
+      <a href="#" id="update">Update Username</a>
+    </div>
+
+    <script>
+      function error(msg) {
+        var errorE = document.getElementById("error");
+        errorE.innerHTML = msg;
+        errorE.style.display = "block";
+      }
+
+      function success() {
+        location.reload();
+      }
+
+      function update() {
+        var username = document.getElementById("username").value;
+        // var epicId = document.getElementById("epicId").value;
+        if (!username) {
+          error("Please enter a username.");
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/updateEpic", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            success();
+          } else if (xhr.status == 409) {
+            error(xhr.responseText);
+          }
+        };
+        xhr.send(
+          JSON.stringify({
+            new_u: username,
+            // 'epicId': epicId
+          })
+        );
+      }
+
+      function displayUsername(username) {
+        // console.log(username.length);
+        if (username.length > 0) {
+          document.getElementById("curr").innerHTML =
+            "<b>Current username: </b>" + username;
+        } else {
+          document.getElementById("curr").innerHTML = "";
+        }
+      }
+
+      function getUsername() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/getEpic", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            displayUsername(xhr.responseText);
+          } else if (xhr.status == 409) {
+            error(xhr.responseText);
+          }
+        };
+        xhr.send();
+      }
+
+      function init() {
+        document.getElementById("update").onclick = update;
+        getUsername();
+      }
+
+      window.onload = init;
+    </script>
+  </body>
+</html>
