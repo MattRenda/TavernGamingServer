@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style/teams.css" />
+
+    <script
+      src="https://kit.fontawesome.com/4e5174e0e9.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>Team | Tokens</title>
+    <link rel="shortcut icon" type="image/jpg" href="/logo/256.png" />
+  </head>
+
+  <body>
+    <div id="container">
+      <h1>Profile</h1>
+      <div id="links">
+        <a href="/dashboard" id="dash">Back to Dashboard</a>
+        <a href="/teams" class="link selected">Teams</a>
+        <a href="/deposit" class="link">Deposit</a>
+        <a href="/withdraw" class="link">Withdraw</a>
+        <a href="/epic" class="link">Epic Account</a>
+        <a href="/logout" class="link logout">Log Out</a>
+      </div>
+      <p id="create-success" style="display: none"></p>
+      <p id="error" style="display: none"></p>
+      <p id="success-leave" style="display: none">Successfully left team.</p>
+
+      <div id="teams"></div>
+
+      <div id="create-box">
+        <h3>Create New Team</h3>
+        <input id="new-team-name" placeholder="Team Name" />
+        <a href="#" id="create-button">Create</a>
+      </div>
+    </div>
+
+    <script>
+      if (!String.prototype.format) {
+        String.prototype.format = function () {
+          var args = arguments;
+          return this.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != "undefined" ? args[number] : match;
+          });
+        };
+      }
+
+      const teamHTML =
+        '<div class="team"><h4>{2}</h4><div class="team-users"><b>Users: </b>{1}</div><input class="player-name" placeholder="Player Name"><a data-team-id="{0}" href="#" class="add-player">Add</a><br><a href="#" class="leave-team">Leave Team</a></div>';
+      const userHTML = '<p class="user">{0}</p>';
+
+      function hideAlerts() {
+        document.getElementById("error").style.display = "none";
+        document.getElementById("create-success").style.display = "none";
+        document.getElementById("success-leave").style.display = "none";
+      }
+
+      function error(msg) {
+        document.getElementById("error").innerHTML = "Error: " + msg;
+        document.getElementById("error").style.display = "block";
+      }
+
+      function createSuccess(name) {
+        document.getElementById("create-success").innerHTML =
+          "Successfully created team '" + name + "'!";
+        document.getElementById("create-success").style.display = "block";
+
+        getTeams();
+      }
+
+      function successLeave(name) {
+        document.getElementById("success-leave").style.display = "block";
+
+        getTeams();
+      }
+
+      function addPlayer() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/addTeammate", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            // console.log(JSON.parse(xhr.responseText));
+          } else if (xhr.status == 409) {
+            error(xhr.responseText);
+          }
+        };
+
+        var teamid = this.getAttribute("data-team-id");
+        var teammate = this.parentElement.children[2].value;
+
+        xhr.send(
+          JSON.stringify({
+            teamid: teamid,
+            teammate: teammate,
+          })
+        );
+      }
+
+      function usersToHTML(users) {
+        return users.join(", ");
+
+        var totalHTML = "";
+        for (var i = 0; i < users.length; i++) {
+          totalHTML += userHTML.format(users[i]);
+        }
+
+        return totalHTML;
+      }
+
+      function leaveTeam() {
+        var teamid =
+          this.parentElement.children[3].getAttribute("data-team-id");
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/leaveTeam", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            successLeave();
+          } else if (xhr.status == 409) {
+            error(xhr.responseText);
+          }
+        };
+        xhr.send(
+          JSON.stringify({
+            teamid: teamid,
+          })
+        );
+      }
+
+      function processTeams(teamdata) {
+        var teamsElement = document.getElementById("teams");
+        teamsElement.innerHTML = "";
+
+        for (var i = 0; i < teamdata.length; i++) {
+          var team = teamdata[i];
+          var teamid = team._id;
+          var teamName = team.name;
+
+          // console.log(team.usernames);
+          var usersHTML = usersToHTML(team.usernames);
+          // console.log(usersHTML);
+
+          var newTeam = teamHTML.format(teamid, usersHTML, teamName);
+          teamsElement.innerHTML += newTeam;
+        }
+
+        var buttons = document.getElementsByClassName("add-player");
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].onclick = addPlayer;
+        }
+
+        buttons = document.getElementsByClassName("leave-team");
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].onclick = leaveTeam;
+        }
+      }
+
+      function getTeams() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/getTeams", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            processTeams(JSON.parse(xhr.responseText));
+          } else if (xhr.status == 409) {
+            error(xhr.responseText);
+          }
+        };
+        xhr.send();
+      }
+
+      function createTeam() {
+        var name = document.getElementById("new-team-name").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/createTeam", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            createSuccess(name);
+          } else if (xhr.status == 409) {
+            error(xhr.responseText);
+          }
+        };
+        xhr.send(
+          JSON.stringify({
+            name: name,
+          })
+        );
+      }
+
+      function init() {
+        getTeams();
+        document.getElementById("create-button").onclick = createTeam;
+      }
+
+      window.onload = init();
+    </script>
+  </body>
+</html>
