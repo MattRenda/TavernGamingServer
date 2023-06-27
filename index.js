@@ -165,7 +165,7 @@ const DONE_MATCH_EXP_TIME = 3 * 60;
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(`mongodb+srv://battlewisegg:${process.env.MONGO_PASSWORD}@cluster0.pjasquf.mongodb.net/`);
+mongoose.connect(`${process.env.MONGO_PASSWORD}`);
 
 // console.log(pwd);
 // console.log(mongoose.connection.readyState);
