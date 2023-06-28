@@ -1,5 +1,5 @@
 const constants = {
-  clientURL: "https://www.taverngaming.com",
+  clientURL: "https://taverngaming.azureedge.net",
   serverURL: "https://tavern-gaming-server-ffc8707ef1ea.herokuapp.com",
   //serverURL: "http://localhost:8080",
   //clientURL: "http://localhost:3000",
