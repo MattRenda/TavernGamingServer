@@ -702,7 +702,7 @@ const createWager = async (req, res, io) => {
       return res.send({
         error: true,
         message:
-          "At least one of your team's members must submit their epic username on their profile",
+          "At least one of your team's members must submit their battletag on their profile",
       });
     } else if (epicsSet == -2) {
       return res.send({
@@ -959,7 +959,7 @@ const joinWager = async (req, res, io) => {
             return res.status(409).send({
               error: true,
               message:
-                "At least one of the team's members must submit their epic username on their profile.",
+                "At least one of the team's members must submit their battletag on their profile.",
             });
           } else if (epicsSet == -2) {
             if (res.headersSent) {

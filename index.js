@@ -1971,7 +1971,7 @@ app.post("/createWager", (req, res, next) => {
               return res
                 .status(409)
                 .send(
-                  "At least one of the team's members must submit their epic username on their profile."
+                  "At least one of the team's members must submit their battletag on their profile."
                 );
             } else if (epicsSet == -2) {
               return res
@@ -2554,7 +2554,7 @@ function readyUp(wager, username) {
       wager.wagerid,
       "Host: " +
         host +
-        " team, please send your epic username in chat. If you see the message 'Other team has submitted a win, please either confirm or dispute.', don't worry. It's just a visual bug. Play and mark your match normally."
+        " team, please send your battletag in chat. If you see the message 'Other team has submitted a win, please either confirm or dispute.', don't worry. It's just a visual bug. Play and mark your match normally."
     );
 
     return true;
