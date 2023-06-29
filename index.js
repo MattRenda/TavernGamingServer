@@ -132,7 +132,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const corsOpts = {
   origin: constants.clientURL,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   origin: true,
   withCredentials: true,
