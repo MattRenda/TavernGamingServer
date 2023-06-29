@@ -677,117 +677,117 @@ const {
 // const subClient = pubClient.duplicate();
 // io.adapter(createAdapter(pubClient, subClient));
 
-module.exports.io = io;
+//module.exports.io = io;
 
-io.on("connection", (socket) => {
-  // join a wager
-  const { wagerId, username } = socket.handshake.query;
-  socket.join(username);
-  socket.join(wagerId);
+// io.on("connection", (socket) => {
+//   // join a wager
+//   const { wagerId, username } = socket.handshake.query;
+//   socket.join(username);
+//   socket.join(wagerId);
 
-  // listen for new messages
-  socket.on(NEW_CHAT_EVENT, (data) => {
-    io.in(wagerId).emit(NEW_CHAT_EVENT, {
-      name: data?.name,
-      message: data?.message,
-    });
-  });
+//   // listen for new messages
+//   socket.on(NEW_CHAT_EVENT, (data) => {
+//     io.in(wagerId).emit(NEW_CHAT_EVENT, {
+//       name: data?.name,
+//       message: data?.message,
+//     });
+//   });
 
-  socket.on(NEW_BRACKET_WIN_EVENT, (bracketWinData) => {
-    sendNewBracketWinEvent(io, bracketWinData);
-  });
+//   socket.on(NEW_BRACKET_WIN_EVENT, (bracketWinData) => {
+//     sendNewBracketWinEvent(io, bracketWinData);
+//   });
 
-  socket.on("timerBalance", (timerBalanceData) => {
-    const { users, tokenId } = timerBalanceData;
-    users.forEach((user) => {
-      UserData.findOne({ username: user }, (err, userdata) => {
-        if (err || !userdata) {
-          return;
-        }
-        io.in(user).emit("timerBalance", userdata.balance.toString());
-      });
-    });
-  });
+//   socket.on("timerBalance", (timerBalanceData) => {
+//     const { users, tokenId } = timerBalanceData;
+//     users.forEach((user) => {
+//       UserData.findOne({ username: user }, (err, userdata) => {
+//         if (err || !userdata) {
+//           return;
+//         }
+//         io.in(user).emit("timerBalance", userdata.balance.toString());
+//       });
+//     });
+//   });
 
-  // listen for a game message event (sending a message in chat as the match)
-  socket.on(NEW_GAME_MESSAGE_EVENT, (data) => {
-    io.in(wagerId).emit(NEW_GAME_MESSAGE_EVENT, {
-      name: data?.name,
-      message: data?.message,
-    });
-  });
+//   // listen for a game message event (sending a message in chat as the match)
+//   socket.on(NEW_GAME_MESSAGE_EVENT, (data) => {
+//     io.in(wagerId).emit(NEW_GAME_MESSAGE_EVENT, {
+//       name: data?.name,
+//       message: data?.message,
+//     });
+//   });
 
-  // new team notification TODO: change this to accept all notification types
-  socket.on(NEW_NOTIFICATION_EVENT, (notification) => {
-    // console.log("notif from server socket: ", notification);
-    // console.log("new noti");
-    sendTeamInvite(io, notification);
-  });
+//   // new team notification TODO: change this to accept all notification types
+//   socket.on(NEW_NOTIFICATION_EVENT, (notification) => {
+//     // console.log("notif from server socket: ", notification);
+//     // console.log("new noti");
+//     sendTeamInvite(io, notification);
+//   });
 
-  // listen for a user to join the current token
-  socket.on(NEW_JOIN_EVENT, (joinEventData) => {
-    // console.log("sending new join event");
-    sendJoinEvent(io, joinEventData);
-  });
+//   // listen for a user to join the current token
+//   socket.on(NEW_JOIN_EVENT, (joinEventData) => {
+//     // console.log("sending new join event");
+//     sendJoinEvent(io, joinEventData);
+//   });
 
-  // listen for a user to ready up
-  socket.on(NEW_READY_EVENT, (readyEventData) => {
-    // ready event data is an object containing wagerId: and username: of the readied player
-    sendReadyEvent(io, readyEventData);
-  });
+//   // listen for a user to ready up
+//   socket.on(NEW_READY_EVENT, (readyEventData) => {
+//     // ready event data is an object containing wagerId: and username: of the readied player
+//     sendReadyEvent(io, readyEventData);
+//   });
 
-  // listen for submit event
-  socket.on(NEW_SUBMIT_EVENT, (submitEventData) => {
-    sendSubmitEvent(io, submitEventData);
-  });
+//   // listen for submit event
+//   socket.on(NEW_SUBMIT_EVENT, (submitEventData) => {
+//     sendSubmitEvent(io, submitEventData);
+//   });
 
-  // listen for cancel
-  socket.on(NEW_CANCEL_EVENT, (cancelEventData) => {
-    sendCancelEvent(io, cancelEventData);
-  });
+//   // listen for cancel
+//   socket.on(NEW_CANCEL_EVENT, (cancelEventData) => {
+//     sendCancelEvent(io, cancelEventData);
+//   });
 
-  // listen for reset
-  socket.on(NEW_RESET_EVENT, (resetEventData) => {
-    sendResetEvent(io, resetEventData);
-  });
+//   // listen for reset
+//   socket.on(NEW_RESET_EVENT, (resetEventData) => {
+//     sendResetEvent(io, resetEventData);
+//   });
 
-  // listen for force win
-  socket.on(NEW_FORCE_EVENT, (forceEventData) => {
-    sendForceEvent(io, forceEventData);
-  });
+//   // listen for force win
+//   socket.on(NEW_FORCE_EVENT, (forceEventData) => {
+//     sendForceEvent(io, forceEventData);
+//   });
 
-  // listen for timer ready 0 event
-  socket.on(NEW_TIMER_EXPIRED_READY_EVENT, (sendTimerExpiredReadyEventData) => {
-    sendTimerExpiredReadyEvent(io, sendTimerExpiredReadyEventData);
-  });
+//   // listen for timer ready 0 event
+//   socket.on(NEW_TIMER_EXPIRED_READY_EVENT, (sendTimerExpiredReadyEventData) => {
+//     sendTimerExpiredReadyEvent(io, sendTimerExpiredReadyEventData);
+//   });
 
-  socket.on(NEW_EPIC_VERIFIED_EVENT, (epic) => {
-    sendNewTempEpicEvent(io, epic);
-  });
+//   socket.on(NEW_EPIC_VERIFIED_EVENT, (epic) => {
+//     sendNewTempEpicEvent(io, epic);
+//   });
 
-  // listen for a new verified epic event
-  socket.on(NEW_EPIC_VERIFIED_EVENT, (tempEpic) => {
-    sendNewTempEpicEvent(io, tempEpic);
-  });
+//   // listen for a new verified epic event
+//   socket.on(NEW_EPIC_VERIFIED_EVENT, (tempEpic) => {
+//     sendNewTempEpicEvent(io, tempEpic);
+//   });
 
-  // listen for agreeing to cancel the match
-  socket.on(NEW_AGREE_CANCEL_EVENT, (agreeCancelData) => {
-    sendNewAgreeCancelEvent(io, agreeCancelData);
-  });
+//   // listen for agreeing to cancel the match
+//   socket.on(NEW_AGREE_CANCEL_EVENT, (agreeCancelData) => {
+//     sendNewAgreeCancelEvent(io, agreeCancelData);
+//   });
 
-  socket.on(NEW_REMOVE_VOTE_CANCEL_EVENT, (agreeCancelData) => {
-    sendNewRemoveAgreeCancelEvent(io, agreeCancelData);
-  });
+//   socket.on(NEW_REMOVE_VOTE_CANCEL_EVENT, (agreeCancelData) => {
+//     sendNewRemoveAgreeCancelEvent(io, agreeCancelData);
+//   });
 
-  socket.on(NEW_REMATCH_INVITE_EVENT, (rematchData) => {
-    sendNewRematchEvent(io, rematchData);
-  });
+//   socket.on(NEW_REMATCH_INVITE_EVENT, (rematchData) => {
+//     sendNewRematchEvent(io, rematchData);
+//   });
 
-  // leave the wager chat
-  socket.on("disconnect", () => {
-    socket.leave(username);
-  });
-});
+//   // leave the wager chat
+//   socket.on("disconnect", () => {
+//     socket.leave(username);
+//   });
+// });
 
 app.post("/api/login", login);
 app.post("/api/register", register);
