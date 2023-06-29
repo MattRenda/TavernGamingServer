@@ -165,32 +165,32 @@ const DONE_MATCH_EXP_TIME = 3 * 60;
 app.use(passport.initialize());
 app.use(passport.session());
 
-// mongoose.connect(`${process.env.MONGO_PASSWORD}`,  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
-// () => {
-//   console.log('Connected to MongoDB');
-//   console.log(process.env.MONGO_PASSWORD);
-// });
+mongoose.connect(`${process.env.MONGO_PASSWORD}`,  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+() => {
+  console.log('Connected to MongoDB');
+  console.log(process.env.MONGO_PASSWORD);
+});
 
 // console.log(pwd);
 // console.log(mongoose.connection.readyState);
 // console.log(process.env.PORT);
 
-// mongoose.connection.on("connecting", () => {
-//   // console.log("connecting");
-//   // console.log(mongoose.connection.readyState); //logs 2
-// });
-// mongoose.connection.on("connected", () => {
-//   // console.log("connected");
-//   // console.log(mongoose.connection.readyState); //logs 1
-// });
-// mongoose.connection.on("disconnecting", () => {
-//   // console.log("disconnecting");
-//   // console.log(mongoose.connection.readyState); // logs 3
-// });
-// mongoose.connection.on("disconnected", () => {
-//   // console.log("disconnected");
-//   // console.log(mongoose.connection.readyState); //logs 0
-// });
+mongoose.connection.on("connecting", () => {
+  // console.log("connecting");
+  // console.log(mongoose.connection.readyState); //logs 2
+});
+mongoose.connection.on("connected", () => {
+  // console.log("connected");
+  // console.log(mongoose.connection.readyState); //logs 1
+});
+mongoose.connection.on("disconnecting", () => {
+  // console.log("disconnecting");
+  // console.log(mongoose.connection.readyState); // logs 3
+});
+mongoose.connection.on("disconnected", () => {
+  // console.log("disconnected");
+  // console.log(mongoose.connection.readyState); //logs 0
+});
 
 var paypal_server = "sb-ze0ex11439293@business.example.com";
 
@@ -658,14 +658,14 @@ const {
   NEW_BRACKET_WIN_EVENT,
 } = socketEvents;
 
-const io = socketIo(server, {
-  cors: {
-    origin: constants.clientURL,
-    methods: ["GET", "POST"],
-  },
-  secure: true,
-  // transports: ["websocket", "polling"],
-});
+// const io = socketIo(server, {
+//   cors: {
+//     origin: constants.clientURL,
+//     methods: ["GET", "POST"],
+//   },
+//   secure: true,
+//   // transports: ["websocket", "polling"],
+// });
 
 // const pubClient = createClient({
 //   url: process.env.REDIS_TSL_URL,
