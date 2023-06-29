@@ -131,22 +131,22 @@ app.use((err, req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const corsOpts = {
-  // origin: constants.clientURL,
+  origin: constants.clientURL,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  // allowedHeaders: ["Content-Type", "Authorization"],
-  origin: 'https://www.taverngaming.com',
-  // withCredentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  origin: true,
+  withCredentials: true,
 };
 
 app.use(cors(corsOpts));
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", constants.clientURL); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 app.use(
   cookieSession({
     name: "session",
@@ -165,7 +165,10 @@ const DONE_MATCH_EXP_TIME = 3 * 60;
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(`${process.env.MONGO_PASSWORD}`);
+mongoose.connect(`${process.env.MONGO_PASSWORD}`,  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+() => {
+  console.log('Connected to MongoDB');
+});
 
 // console.log(pwd);
 // console.log(mongoose.connection.readyState);
