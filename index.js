@@ -168,6 +168,7 @@ app.use(passport.session());
 mongoose.connect(`${process.env.MONGO_PASSWORD}`,  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
 () => {
   console.log('Connected to MongoDB');
+  console.log(process.env.MONGO_PASSWORD);
 });
 
 // console.log(pwd);
