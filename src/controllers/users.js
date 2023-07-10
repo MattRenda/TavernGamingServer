@@ -867,14 +867,14 @@ const getEarnings = (req, res) => {
 };
 
 const VerifyStripePayment = async (req,res,io)=>{
-  const sig = request.headers['stripe-signature'];
+  const sig = req.headers['stripe-signature'];
 
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
   } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
+    res.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
 
@@ -891,7 +891,7 @@ const VerifyStripePayment = async (req,res,io)=>{
   }
 
   // Return a 200 response to acknowledge receipt of the event
-  response.status(200).send(`PAID - SUCCESS`);
+  res.status(200).send(`PAID - SUCCESS`);
 }
 
 function verifyWebhook(payload, hmac) {
