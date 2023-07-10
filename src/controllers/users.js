@@ -867,50 +867,31 @@ const getEarnings = (req, res) => {
 };
 
 const VerifyStripePayment = async (req,res,io)=>{
-    const event = request.body;
-  
-    // Handle the event
-    switch (event.type) {
-      case 'payment_intent.succeeded':
-        // const paymentIntent = event.data.object;
+  const sig = request.headers['stripe-signature'];
 
-        // var newDepositData = new DepositData({
-        //   transactionId,
-        //   amount,
-        //   currency: req?.body?.currency,
-        //   date: req?.body?.created_at,
-        //   email: req?.body?.contact_email,
-        //   items: "token",
-        //   name: username.toLowerCase(),
-        //   note: null,
-        //   payment_method: req?.body?.processing_method,
-        //   quantities: amount,
-        //   status: "yes",
-        //   transaction: null,
-        // });
-        // await newDepositData.save();
-  
-        // const userdata = await UserData.findOne({ username });
-        // let depositValue = parseFloat(amount);
-        // userdata.balance += depositValue;
-        // await userdata.save();
-        // io.in(username).emit(NEW_UPDATE_BALANCE_EVENT, userdata.balance);
-        console.log('PAID')
-        // Then define and call a method to handle the successful payment intent.
-        // handlePaymentIntentSucceeded(paymentIntent);
-        break;
-      case 'payment_method.attached':
-        const paymentMethod = event.data.object;
-        // Then define and call a method to handle the successful attachment of a PaymentMethod.
-        // handlePaymentMethodAttached(paymentMethod);
-        break;
-      // ... handle other event types
-      default:
-        console.log(`Unhandled event type ${event.type}`);
-    }
-  
-    // Return a response to acknowledge receipt of the event
-    response.json({received: true});
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+  } catch (err) {
+    response.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntentSucceeded = event.data.object;
+      console.log('PAID - SUCCESS')
+      // Then define and call a function to handle the event payment_intent.succeeded
+      break;
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  response.send();
 }
 
 function verifyWebhook(payload, hmac) {
