@@ -74,6 +74,7 @@ const {
   shopifyDeposit,
   squareIsGangStyll,
   setFivemUser,
+  VerifyStripePayment
 } = require("./src/controllers/users");
 const {
   createBracketTournament,
@@ -464,7 +465,7 @@ function generateVerifyCode(username, email) {
   });
   newCode.save();
 
-  var url = "http://tkns.gg/verify?code=" + unique_value;
+  var url = "https://www.taverngaming.com/verify?code=" + unique_value;
   sendVerificationEmail(email, url);
 }
 
@@ -486,12 +487,12 @@ function sendVerificationEmail(userEmail, verifyUrl) {
 }
 
 function sendForgotPwEmail(email, verifyUrl) {
-  const fullUrl = "http://tkns.gg/?forgot=" + verifyUrl;
+  const fullUrl = "https://www.taverngaming.com/?forgot=" + verifyUrl;
   transporter
     .sendMail({
-      from: '"Tkns.GG" <support@tkns.gg>', // sender address
+      from: '"Taverngaming" <support@taverngaming>', // sender address
       to: email, // list of receivers
-      subject: "Forgot Password - Tkns.GG", // Subject line
+      subject: "Forgot Password - taverngaming", // Subject line
       html: emailStringPw
         .getEmailStringPw()
         .replace("{#verification_code#}", fullUrl)
@@ -802,6 +803,10 @@ app.post(
   "/api/user/deposit",
   async (req, res) => await shopifyDeposit(req, res, io)
 );
+app.post(
+  '/stripe/webhook/verifyPayment',
+  verifyToken, 
+  async (req, res) => await VerifyStripePayment(req,res,io))
 
 app.post(
   "/api/wagers/createWager",
@@ -2506,7 +2511,7 @@ function readyUp(wager, username) {
       var today = new Date();
       today.toString();
       var wagerString = wager.wagerid;
-      //"https://tkns.gg/wager/" +
+      //"https://www.taverngaming.com/wager/" +
       // + ' ' + ' ' + data.match_type + ' ' + wager.winner
 
       var prize = data.entry_fee;
@@ -2516,7 +2521,7 @@ function readyUp(wager, username) {
           userdata.balance -= prize;
 
           var newMatchHistory = {
-            wager_id: "https://tkns.gg/wager/" + wager.wagerid,
+            wager_id: "https://www.taverngaming.com/wager/" + wager.wagerid,
             game_mode: data.match_type,
             entry_fee: data.entry_fee,
             date: today,

@@ -206,7 +206,7 @@ function sendVerificationEmail(email, verifyUrl) {
       subject: "Verify - Tkns.GG", // Subject line
       html: getEmailString()
         .replace("{#verification_code#}", verifyUrl)
-        .replace("{#discord_invite#}", "https://www.discord.gg/tknsgg"), // html body
+        .replace("{#discord_invite#}", "https://www.taverngaming.com/www.discord.gg/tknsgg"), // html body
     })
     .then((info) => {
       // console.log({ info });
@@ -714,7 +714,7 @@ const readyUpHelper = async (wager, username, io) => {
           username: wager?.readied_users[i],
         });
         const newMatchHistory = {
-          wager_id: "https://tkns.gg/token/" + wager?.wagerid,
+          wager_id: "https://www.taverngaming.com/token/" + wager?.wagerid,
           game_mode: data?.match_type,
           entry_fee: data?.entry_fee,
           date: today,
@@ -967,7 +967,7 @@ const win = async (wager, teamnum, io, callback) => {
 
         const last_match_history = blueputupdata.match_history.find(
           (match) =>
-            match.wager_id == "https://tkns.gg/token/" + data._id.toString()
+            match.wager_id == "https://www.taverngaming.com/token/" + data._id.toString()
         );
         const index = blueputupdata.match_history.indexOf(last_match_history);
         blueputupdata.match_history[index].status = winners.toString();
@@ -982,7 +982,7 @@ const win = async (wager, teamnum, io, callback) => {
             });
             const last_match_history = winnerTeamData.match_history.find(
               (match) =>
-                match.wager_id == "https://tkns.gg/token/" + data._id.toString()
+                match.wager_id == "https://www.taverngaming.com/token/" + data._id.toString()
             );
             const index =
               winnerTeamData.match_history.indexOf(last_match_history);
@@ -997,7 +997,7 @@ const win = async (wager, teamnum, io, callback) => {
           });
           const last_match_history = nonWinnerData.match_history.find(
             (match) =>
-              match.wager_id == "https://tkns.gg/token/" + data._id.toString()
+              match.wager_id == "https://www.taverngaming.com/token/" + data._id.toString()
           );
           const index = nonWinnerData.match_history.indexOf(last_match_history);
           nonWinnerData.match_history[index].status = winners.toString();
@@ -1116,7 +1116,7 @@ const win = async (wager, teamnum, io, callback) => {
             });
             const last_match_history = winnerTeamData.match_history.find(
               (match) =>
-                match.wager_id == "https://tkns.gg/token/" + data._id.toString()
+                match.wager_id == "https://www.taverngaming.com/token/" + data._id.toString()
             );
             const index =
               winnerTeamData.match_history.indexOf(last_match_history);
@@ -1127,7 +1127,7 @@ const win = async (wager, teamnum, io, callback) => {
 
         const last_match_history = redputupdata.match_history.find(
           (match) =>
-            match.wager_id == "https://tkns.gg/token/" + data._id.toString()
+            match.wager_id == "https://www.taverngaming.com/token/" + data._id.toString()
         );
         const index = redputupdata.match_history.indexOf(last_match_history);
         redputupdata.match_history[index].status = winners.toString();
@@ -1140,7 +1140,7 @@ const win = async (wager, teamnum, io, callback) => {
           });
           const last_match_history = nonWinnerData.match_history.find(
             (match) =>
-              match.wager_id == "https://tkns.gg/token/" + data._id.toString()
+              match.wager_id == "https://www.taverngaming.com/token/" + data._id.toString()
           );
           const index = nonWinnerData.match_history.indexOf(last_match_history);
           nonWinnerData.match_history[index].status = winners.toString();
@@ -1252,11 +1252,11 @@ const win = async (wager, teamnum, io, callback) => {
 
           const last_match_history = userdata.match_history.find(
             (match) =>
-              match.wager_id == "https://tkns.gg/token/" + data._id.toString()
+              match.wager_id == "https://www.taverngaming.com/token/" + data._id.toString()
           );
           const loser_match_history = nonWinnerData.match_history.find(
             (match) =>
-              match.wager_id == "https://tkns.gg/token/" + data._id.toString()
+              match.wager_id == "https://www.taverngaming.com/token/" + data._id.toString()
           );
 
           const index = userdata.match_history.indexOf(last_match_history);

@@ -9283,3 +9283,41 @@
 2023.06.29, 22:01:02.0760 UTC -> Started Server
 2023.06.29, 22:38:46.0089 UTC -> Started Server
 2023.06.29, 22:40:27.0217 UTC -> Started Server
+2023.06.30, 04:19:17.0106 UTC -> Started Server
+2023.06.30, 05:07:57.0470 UTC -> Started Server
+2023.06.30, 06:31:25.0759 UTC -> Started Server
+2023.06.30, 06:33:21.0399 UTC -> Started Server
+2023.06.30, 06:36:09.0214 UTC -> Started Server
+2023.07.05, 17:30:01.0399 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:01.0714 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:01.0841 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:01.0890 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:02.0190 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:02.0238 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:02.0349 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:03.0237 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:03.0237 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:04.0236 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:05.0250 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:05.0362 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:06.0249 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:06.0377 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:07.0248 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:07.0375 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:08.0265 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:09.0278 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:10.0284 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:11.0305 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:12.0309 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:13.0313 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:14.0329 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:15.0327 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:16.0278 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:16.0341 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:17.0356 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:18.0371 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:19.0386 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:20.0400 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:21.0417 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.05, 17:30:22.0431 UTC -> MongooseServerSelectionError: connect ETIMEDOUT 54.208.227.30:27017
+2023.07.10, 20:05:31.0246 UTC -> Started Server

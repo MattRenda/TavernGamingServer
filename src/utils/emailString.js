@@ -552,7 +552,7 @@ const getEmailString = () => {
                       <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="mobileView" style="" width="100%">
                         <tr>
                           <td align="left" style="color: #88888f; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 12px; line-height: 18px; font-weight:normal; padding: 10px 0px 0px 25px;" valign="middle" width="100%">
-                            <a class="footerLinks" href="https://tkns.gg/contact" style=" text-decoration: none; color: #88888f" target="_blank"><span class="contact">Contact</span></a>
+                            <a class="footerLinks" href="https://www.taverngaming.com/contact" style=" text-decoration: none; color: #88888f" target="_blank"><span class="contact">Contact</span></a>
                           </td>
                         </tr>
                         <tr>

@@ -2,8 +2,8 @@
   "name": "taverngaming",
   "version": "1.0.0",
   "description": "",
-  "engines":{
-    "node":"16.16.0"
+  "engines": {
+    "node": "16.16.0"
   },
   "main": "index.js",
   "scripts": {
@@ -46,6 +46,7 @@
     "shopify-api-node": "^3.8.2",
     "socket.io": "^4.4.1",
     "square": "^17.3.0",
+    "stripe": "^12.11.0",
     "uuid": "^8.3.2"
   }
 }

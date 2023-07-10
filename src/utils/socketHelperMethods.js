@@ -179,7 +179,7 @@ const cancelSocketHelper = async (wagerObj, callback) => {
       });
       const last_match_history = allUserData.match_history.find(
         (match) =>
-          match.wager_id == "https://tkns.gg/token/" + data._id.toString()
+          match.wager_id == "https://www.taverngaming.com/token/" + data._id.toString()
       );
       if (last_match_history) {
         const index = allUserData.match_history.indexOf(last_match_history);

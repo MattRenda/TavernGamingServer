@@ -866,6 +866,53 @@ const getEarnings = (req, res) => {
   });
 };
 
+const VerifyStripePayment = async (req,res,io)=>{
+    const event = request.body;
+  
+    // Handle the event
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        // const paymentIntent = event.data.object;
+
+        // var newDepositData = new DepositData({
+        //   transactionId,
+        //   amount,
+        //   currency: req?.body?.currency,
+        //   date: req?.body?.created_at,
+        //   email: req?.body?.contact_email,
+        //   items: "token",
+        //   name: username.toLowerCase(),
+        //   note: null,
+        //   payment_method: req?.body?.processing_method,
+        //   quantities: amount,
+        //   status: "yes",
+        //   transaction: null,
+        // });
+        // await newDepositData.save();
+  
+        // const userdata = await UserData.findOne({ username });
+        // let depositValue = parseFloat(amount);
+        // userdata.balance += depositValue;
+        // await userdata.save();
+        // io.in(username).emit(NEW_UPDATE_BALANCE_EVENT, userdata.balance);
+        console.log('PAID')
+        // Then define and call a method to handle the successful payment intent.
+        // handlePaymentIntentSucceeded(paymentIntent);
+        break;
+      case 'payment_method.attached':
+        const paymentMethod = event.data.object;
+        // Then define and call a method to handle the successful attachment of a PaymentMethod.
+        // handlePaymentMethodAttached(paymentMethod);
+        break;
+      // ... handle other event types
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
+  
+    // Return a response to acknowledge receipt of the event
+    response.json({received: true});
+}
+
 function verifyWebhook(payload, hmac) {
   const message = payload.toString();
   const genHash = crypto
@@ -939,6 +986,7 @@ const shopifyDeposit = async (req, res, io) => {
 
 module.exports = {
   confirmPoofDeposit,
+  VerifyStripePayment,
   getUserById,
   getUserTeams,
   getUserByUsername,
