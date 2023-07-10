@@ -1,6 +1,4 @@
 const express = require("express");
-const stripe = require('stripe')(process.env.STRIPE_SECRET);
-
 const bodyParser = require("body-parser");
 var cookieSession = require("cookie-session");
 const fetch = require("node-fetch");

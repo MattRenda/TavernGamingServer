@@ -4,7 +4,7 @@ const { DepositData } = require("../models/Transaction");
 const { WithdrawData } = require("../models/Withdraw");
 const { VerifyEpicData } = require("../models/Epic");
 const { AvatarData } = require("../models/Avatar");
-const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const stripe = require('stripe');
 
 const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
@@ -873,7 +873,7 @@ const VerifyStripePayment = async (req,res,io)=>{
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_SECRET);
   } catch (err) {
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
