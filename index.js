@@ -805,7 +805,6 @@ app.post(
 );
 app.post(
   '/stripe/webhook/verifyPayment',
-  verifyToken, 
   async (req, res) => await VerifyStripePayment(req,res,io))
 
 app.post(
