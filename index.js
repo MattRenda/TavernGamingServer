@@ -129,6 +129,13 @@ app.use((err, req, res, next) => {
   res.send("500: Internal server error");
 });
 
+app.use(
+  bodyParser.json({
+      verify: function(req, res, buf) {
+          req.rawBody = buf;
+      }
+  })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const corsOpts = {
@@ -804,7 +811,7 @@ app.post(
   async (req, res) => await shopifyDeposit(req, res, io)
 );
 app.post(
-  '/stripe/webhook/verifyPayment', bodyParser.raw({type: 'application/json'}),
+  '/stripe/webhook/verifyPayment', express.raw({type: 'application/json'}),
   async (req, res) => await VerifyStripePayment(req,res,io))
 
 app.post(
