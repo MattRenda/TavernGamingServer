@@ -870,6 +870,7 @@ const getEarnings = (req, res) => {
 const VerifyStripePayment = async (req,res,io)=>{
   const sig = req.headers['stripe-signature'];
   const transactionId = req?.body?.data?.object?.id;
+  const username = req?.body?.data?.custom_fields[0]?.text?.value;
   let event;
 
   try {
@@ -891,10 +892,10 @@ const VerifyStripePayment = async (req,res,io)=>{
         if (!depositData) {
           var newDepositData = new DepositData({
             transactionId,
-            amount: req?.body?.data?.object?.amount,
+            amount: req?.body?.data?.object?.amount_total / 100,
             currency: req?.body?.data?.currency,
             date: req?.body?.data?.created,
-            email: req?.body?.data?.contact_email,
+            email: req?.body?.data?.customer_details?.email,
             items: "token",
             name: username.toLowerCase(),
             note: null,
