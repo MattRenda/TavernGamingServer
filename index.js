@@ -129,7 +129,6 @@ app.use((err, req, res, next) => {
   res.send("500: Internal server error");
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   bodyParser.json({
       verify: function(req, res, buf) {
@@ -137,6 +136,7 @@ app.use(
       }
   })
 );
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const corsOpts = {
   origin: constants.clientURL,
