@@ -128,11 +128,7 @@ app.use((err, req, res, next) => {
   res.status(500);
   res.send("500: Internal server error");
 });
-app.post(
-  '/stripe/webhook/verifyPayment', express.raw({type: 'application/json'}),
-  async (req, res) => await VerifyStripePayment(req,res,io))
 
-  
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const corsOpts = {
@@ -807,6 +803,9 @@ app.post(
   "/api/user/deposit",
   async (req, res) => await shopifyDeposit(req, res, io)
 );
+app.post(
+  '/stripe/webhook/verifyPayment', bodyParser.raw({type: 'application/json'}),
+  async (req, res) => await VerifyStripePayment(req,res,io))
 
 app.post(
   "/api/wagers/createWager",
