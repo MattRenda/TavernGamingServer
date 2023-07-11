@@ -871,6 +871,7 @@ const VerifyStripePayment = async (req,res,io)=>{
   const sig = req.headers['stripe-signature'];
   const transactionId = req?.body?.data?.object?.id;
   const username = req?.body?.data?.object?.custom_fields[0]?.text?.value;
+  const amount = req?.body?.data?.object?.amount_total / 100;
   let event;
 
   try {
@@ -892,7 +893,7 @@ const VerifyStripePayment = async (req,res,io)=>{
         if (!depositData) {
           var newDepositData = new DepositData({
             transactionId,
-            amount: req?.body?.data?.object?.amount_total / 100,
+            amount,
             currency: req?.body?.data?.currency,
             date: req?.body?.data?.created,
             email: req?.body?.data?.customer_details?.email,
