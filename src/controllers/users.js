@@ -870,7 +870,7 @@ const getEarnings = (req, res) => {
 const VerifyStripePayment = async (req,res,io)=>{
   const sig = req.headers['stripe-signature'];
   const transactionId = req?.body?.data?.object?.id;
-  const username = req?.body?.data?.custom_fields[0]?.text?.value;
+  const username = req?.body?.data?.object?.custom_fields[0]?.text?.value;
   let event;
 
   try {
