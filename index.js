@@ -130,6 +130,13 @@ app.use((err, req, res, next) => {
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+  bodyParser.json({
+      verify: function(req, res, buf) {
+          req.rawBody = buf;
+      }
+  })
+);
 app.use(bodyParser.json());
 const corsOpts = {
   origin: constants.clientURL,
@@ -803,10 +810,6 @@ app.post(
   "/api/user/deposit",
   async (req, res) => await shopifyDeposit(req, res, io)
 );
-app.post(
-  '/stripe/webhook/verifyPayment', express.raw({type: 'application/json'}),
-  async (req, res) => await VerifyStripePayment(req,res,io))
-
 app.post(
   "/api/wagers/createWager",
   verifyToken,
