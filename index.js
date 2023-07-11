@@ -811,6 +811,10 @@ app.post(
   async (req, res) => await shopifyDeposit(req, res, io)
 );
 app.post(
+  '/stripe/webhook/verifyPayment', express.raw({type: 'application/json'}),
+  async (req, res) => await VerifyStripePayment(req,res,io))
+
+app.post(
   "/api/wagers/createWager",
   verifyToken,
   async (req, res) => await createWager(req, res, io)
