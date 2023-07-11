@@ -882,7 +882,7 @@ const VerifyStripePayment = async (req,res,io)=>{
 
   // Handle the event
   switch (event.type) {
-    case 'payment_intent.succeeded':
+    case 'checkout.session.completed':
       const paymentIntentSucceeded = event.data.object;
       console.log('PAID - SUCCESS')
 
