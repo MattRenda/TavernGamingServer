@@ -869,7 +869,7 @@ const getEarnings = (req, res) => {
 
 const VerifyStripePayment = async (req,res,io)=>{
   const sig = req.headers['stripe-signature'];
-
+  const transactionId = req?.body?.data?.object?.id;
   let event;
 
   try {
@@ -884,6 +884,40 @@ const VerifyStripePayment = async (req,res,io)=>{
     case 'payment_intent.succeeded':
       const paymentIntentSucceeded = event.data.object;
       console.log('PAID - SUCCESS')
+
+      try {
+        const depositData = await DepositData.findOne({ transactionId });
+    
+        if (!depositData) {
+          var newDepositData = new DepositData({
+            transactionId,
+            amount: req?.body?.data?.object?.amount,
+            currency: req?.body?.data?.currency,
+            date: req?.body?.data?.created,
+            email: req?.body?.data?.contact_email,
+            items: "token",
+            name: username.toLowerCase(),
+            note: null,
+            payment_method: req?.body?.data?.processing_method,
+            quantities: 1,
+            status: req?.body?.data?.status,
+            transaction: null,
+          });
+          await newDepositData.save();
+    
+          const userdata = await UserData.findOne({ username });
+          let depositValue = parseFloat(amount);
+          userdata.balance += depositValue;
+          await userdata.save();
+          io.in(username).emit(NEW_UPDATE_BALANCE_EVENT, userdata.balance);
+          return;
+        } else {
+          return;
+        }
+      } catch (err) {
+        console.log("deposit err: ", err);
+        if (err) return;
+      }
       // Then define and call a function to handle the event payment_intent.succeeded
       break;
     // ... handle other event types
