@@ -4,7 +4,7 @@ const { DepositData } = require("../models/Transaction");
 const { WithdrawData } = require("../models/Withdraw");
 const { VerifyEpicData } = require("../models/Epic");
 const { AvatarData } = require("../models/Avatar");
-const stripe = require('stripe');
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const crypto = require("crypto");
 const { v4: uuidv4 } = require("uuid");
