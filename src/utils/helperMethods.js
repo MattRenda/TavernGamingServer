@@ -195,7 +195,7 @@ function generateVerifyCode(username, email) {
 }
 
 function sendVerificationEmail(email, verifyUrl) {
-  client.sendMail({
+  client.sendEmail({
     from: 'support@taverngaming.com', // sender address
     to: email, // list of receivers
     subject: "Verify - TavernGaming", // Subject line
