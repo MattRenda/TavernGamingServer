@@ -13,20 +13,16 @@ const { EarningsData } = require("../models/Earnings");
 const { ActiveWagerData } = require("../models/ActiveWagers");
 const { WagerDataV2 } = require("../models/WagerDataV2");
 const { NoteData } = require("../models/NoteData");
+var postmark = require("postmark");
+
 const {
   BracketTourneyData,
   MatchData,
 } = require("../models/BracketTournament");
 const { each } = require("async");
 const jwt = require("jsonwebtoken");
-const transporter = nodemailer.createTransport({
-  host: "smtp.sendgrid.net",
-  port: 587,
-  auth: {
-    user: "apikey",
-    pass: process.env.SENDGRID_KEY,
-  },
-});
+var client = new postmark.Client(process.env.POSTMARK_KEY);
+
 const {
   getCurrentTokenGame,
   getCurrentTokenPrize,
@@ -199,19 +195,19 @@ function generateVerifyCode(username, email) {
 }
 
 function sendVerificationEmail(email, verifyUrl) {
-  transporter
-    .sendMail({
-      from: 'support@taverngaming.com', // sender address
-      to: email, // list of receivers
-      subject: "Verify - TavernGaming", // Subject line
-      html: getEmailString()
-        .replace("{#verification_code#}", verifyUrl)
-        .replace("{#discord_invite#}", "https://www.taverngaming.com/www.discord.gg/TavernGaming"), // html body
-    })
-    .then((info) => {
-      // console.log({ info });
-    })
-    .catch(console.error);
+  client.sendMail({
+    from: 'support@taverngaming.com', // sender address
+    to: email, // list of receivers
+    subject: "Verify - TavernGaming", // Subject line
+    html: getEmailString()
+      .replace("{#verification_code#}", verifyUrl)
+      .replace("{#discord_invite#}", "https://www.taverngaming.com/www.discord.gg/TavernGaming"), // html body
+  })
+  .then((info) => {
+    // console.log({ info });
+  })
+  .catch(console.error);
+    
 }
 
 const getWagerObject = (wagerid, callback) => {
