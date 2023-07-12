@@ -196,10 +196,10 @@ function generateVerifyCode(username, email) {
 
 function sendVerificationEmail(email, verifyUrl) {
   client.sendEmail({
-    from: 'support@taverngaming.com', // sender address
-    to: email, // list of receivers
-    subject: "Verify - TavernGaming", // Subject line
-    html: getEmailString()
+    "From": 'support@taverngaming.com', // sender address
+    "To": email, // list of receivers
+    "Subject": "Verify - TavernGaming", // Subject line
+    "HtmlBody": getEmailString()
       .replace("{#verification_code#}", verifyUrl)
       .replace("{#discord_invite#}", "https://www.taverngaming.com/www.discord.gg/TavernGaming"), // html body
   })
