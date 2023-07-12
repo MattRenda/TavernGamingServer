@@ -201,7 +201,7 @@ function generateVerifyCode(username, email) {
 function sendVerificationEmail(email, verifyUrl) {
   transporter
     .sendMail({
-      from: '"TavernGaming" <support@TavernGaming>', // sender address
+      from: 'support@taverngaming.com', // sender address
       to: email, // list of receivers
       subject: "Verify - TavernGaming", // Subject line
       html: getEmailString()
