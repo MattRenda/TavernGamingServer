@@ -308,7 +308,7 @@ const getEmailStringPw = () => {
                         <table cellspacing="0" cellpadding="0" align="left" border="0" width="100%" bgcolor="#ffffff">
                           <tr>
                             <td valign="top" align="left" width="100%" style="padding-left: 25px;">
-                              <img style="max-width: 150px; height: auto" src="https://cdn.discordapp.com/attachments/938012324478992414/956988791212609566/black-half-logo.png" alt="TavernGaming" />
+                              <img style="max-width: 150px; height: auto" src="https://dev.azure.com/matthewrenda14/e3a9a1f1-6b83-48ec-9bda-0f3d790893b1/_apis/git/repositories/0edaeda1-3ee3-4c76-a9a0-0cea121a01e5/items?path=/src/assets/TavernGamingLogo.png&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=main&resolveLfs=true&%24format=octetStream&api-version=5.0" alt="TavernGaming" />
                             </td>
                           </tr>
                         </table>
