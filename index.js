@@ -479,13 +479,13 @@ function generateVerifyCode(username, email) {
 function sendVerificationEmail(userEmail, verifyUrl) {
   transporter
     .sendMail({
-      from: '"Tkns.GG" <support@tkns.gg>', // sender address
+      from: '"Taverngaming" <support@taverngaming>', // sender address
       to: userEmail, // list of receivers
-      subject: "Verify - Tkns.GG", // Subject line
+      subject: "Verify - Taverngaming", // Subject line
       html: emailString
         .getEmailString()
         .replace("{#verification_code#}", verifyUrl)
-        .replace("{#discord_invite#}", "https://www.discord.gg/tknsgg"), // html body
+        .replace("{#discord_invite#}", "https://www.discord.gg/Taverngaming"), // html body
     })
     .then((info) => {
       // console.log({ info });

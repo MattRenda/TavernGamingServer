@@ -573,7 +573,7 @@ const makeWithdrawal = async (req, res, io) => {
   if (wager) {
     return res.status(409).send({
       error: true,
-      message: "You cannot withdraw while you are in a Token",
+      message: "You cannot withdraw while you are in a match",
     });
   } else {
     var amount = Math.floor(parseFloat(amount_input) * 100) / 100;
