@@ -19,6 +19,7 @@ const app = express();
 const { constants } = require("./src/utils/constants");
 // const { createAdapter } = require("@socket.io/redis-adapter");
 // const { createClient } = require("redis");
+var postmark = require("postmark");
 
 const http = require("http");
 const server = http.createServer(app);
@@ -197,9 +198,6 @@ mongoose.connection.on("disconnected", () => {
 });
 
 var paypal_server = "sb-ze0ex11439293@business.example.com";
-
-var postmark = require("postmark");
-
 var client = new postmark.Client(process.env.POSTMARK_KEY);
 
 const nodemailer = require("nodemailer");
@@ -467,7 +465,7 @@ function generateVerifyCode(username, email) {
   });
   newCode.save();
 
-  var url = "https://www.taverngaming.com/verify?code=" + unique_value;
+  const url = `${constants.clientURL}/verify?code=${unique_value}`;
   sendVerificationEmail(email, url);
 }
 
@@ -489,7 +487,7 @@ function sendVerificationEmail(userEmail, verifyUrl) {
 }
 
 function sendForgotPwEmail(email, verifyUrl) {
-  const fullUrl = "https://www.taverngaming.com/?forgot=" + verifyUrl;
+  const fullUrl = `${constants.clientURL}/verify?code=${verifyUrl}`;
     client.sendEmail({
       "From": 'support@taverngaming.com', // sender address
       "To": email, // list of receivers
