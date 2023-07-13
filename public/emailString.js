@@ -60,7 +60,7 @@ return `
           <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="ccce2c05-cf21-40f7-898f-299ac08e95c7" data-mc-module-version="2019-10-22">
     <tbody>
       <tr>
-        <td style="padding:0px 0px 0px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: right"><span style="color: #ffffff">Tkns.GG</span></div><div></div></div></td>
+        <td style="padding:0px 0px 0px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: right"><span style="color: #ffffff">TavernGaming</span></div><div></div></div></td>
       </tr>
     </tbody>
   </table></td>

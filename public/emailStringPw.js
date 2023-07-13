@@ -5,7 +5,7 @@ const getEmailStringPw = () => {
   
   <head>
     
-    <title>Tkns Email</title>
+    <title>TavernGaming Email</title>
     <style type="text/css">
    
      
@@ -308,7 +308,7 @@ const getEmailStringPw = () => {
                         <table cellspacing="0" cellpadding="0" align="left" border="0" width="100%" bgcolor="#ffffff">
                           <tr>
                             <td valign="top" align="left" width="100%" style="padding-left: 25px;">
-                              <img style="max-width: 150px; height: auto" src="https://cdn.discordapp.com/attachments/938012324478992414/956988791212609566/black-half-logo.png" alt="Tkns.GG" />
+                              <img style="max-width: 150px; height: auto" src="https://cdn.discordapp.com/attachments/938012324478992414/956988791212609566/black-half-logo.png" alt="TavernGaming" />
                             </td>
                           </tr>
                         </table>
@@ -412,7 +412,7 @@ const getEmailStringPw = () => {
                                           </td>
                                           <td align="left" style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; line-height: 1.4; color: #000000; padding: 15px 15px 15px 0; background-color: #EFEFF1;">
                                             Have a question? <br />
-                                            <a href="mailto:support@tkns.gg" style="color: #06d6a0;">Reach out to our team</a>
+                                            <a href="mailto:support@TavernGaming" style="color: #06d6a0;">Reach out to our team</a>
                                           </td>
                                         </tr>
                                       </table>
@@ -557,7 +557,7 @@ const getEmailStringPw = () => {
                           </tr>
                           <tr>
                             <td align="left" style="color: #88888f; font-family: 'LyftPro-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 12px; line-height:18px; font-weight: normal; padding: 10px 0px 0px 25px; text-decoration: none;" valign="middle">
-                              651 N. Broad St., Suite 201 Middletown DE 19709<br/>&#169; 2022 Tkns LLC</td>
+                              651 N. Broad St., Suite 201 Middletown DE 19709<br/>&#169; 2022 TavernGaming LLC</td>
                           </tr>
                         </table>
                    

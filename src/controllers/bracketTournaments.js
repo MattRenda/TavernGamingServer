@@ -186,7 +186,7 @@ const createBracketTournament = async (req, res, io) => {
       winners: [],
       admins: [],
       format: req.body.format,
-      hosted_by: req.body.hosted_by == null ? "Tkns.GG" : userdata,
+      hosted_by: req.body.hosted_by == null ? "TavernGaming" : userdata,
       rules: req.body.rules ?? null,
       thumbnail: req.body.thumbnail,
       prize_dist: [],

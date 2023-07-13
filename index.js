@@ -198,16 +198,11 @@ mongoose.connection.on("disconnected", () => {
 
 var paypal_server = "sb-ze0ex11439293@business.example.com";
 
+var postmark = require("postmark");
+
+var client = new postmark.Client(process.env.POSTMARK_KEY);
+
 const nodemailer = require("nodemailer");
-const transporter = nodemailer.createTransport({
-  host: "smtp.sendgrid.net",
-  port: 587,
-  auth: {
-    user: "apikey",
-    pass: "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",
-  },
-});
-transporter.verify();
 
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({ email: String });
@@ -477,12 +472,11 @@ function generateVerifyCode(username, email) {
 }
 
 function sendVerificationEmail(userEmail, verifyUrl) {
-  transporter
-    .sendMail({
-      from: '"Taverngaming" <support@taverngaming>', // sender address
-      to: userEmail, // list of receivers
-      subject: "Verify - Taverngaming", // Subject line
-      html: emailString
+    client.sendEmail({
+      "From": 'support@taverngaming.com', // sender address
+      "To": userEmail, // list of receivers
+      "Subject": "Verify - TavernGaming", // Subject line
+      "HtmlBody": emailString
         .getEmailString()
         .replace("{#verification_code#}", verifyUrl)
         .replace("{#discord_invite#}", "https://www.discord.gg/Taverngaming"), // html body
@@ -491,19 +485,19 @@ function sendVerificationEmail(userEmail, verifyUrl) {
       // console.log({ info });
     })
     .catch(console.error);
+      
 }
 
 function sendForgotPwEmail(email, verifyUrl) {
   const fullUrl = "https://www.taverngaming.com/?forgot=" + verifyUrl;
-  transporter
-    .sendMail({
-      from: '"Taverngaming" <support@taverngaming>', // sender address
-      to: email, // list of receivers
-      subject: "Forgot Password - taverngaming", // Subject line
-      html: emailStringPw
-        .getEmailStringPw()
-        .replace("{#verification_code#}", fullUrl)
-        .replace("{#discord_invite#}", "https://www.discord.gg/tknsgg"), // html body
+    client.sendEmail({
+      "From": 'support@taverngaming.com', // sender address
+      "To": email, // list of receivers
+      "Subject": "Verify - TavernGaming", // Subject line
+      "HtmlBody": emailStringPw
+      .getEmailStringPw()
+      .replace("{#verification_code#}", fullUrl)
+      .replace("{#discord_invite#}", "https://www.discord.gg/TavernGaming"), // html body
     })
     .then((info) => {
       // console.log({ info });
