@@ -453,7 +453,7 @@ const setTempEpic = async (req, res) => {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Basic ' + btoa('aca89babaad748969206b642d5e9623f:SkVfwSDsdK11DntF56RCyh5cjpB1TabP')
       },
-      body: 'redirect_uri=http://localhost:3000/profile/accounts&scope=&grant_type=authorization_code&code='+code
+      body: 'redirect_uri=https://www.taverngaming.com/profile/accounts&scope=&grant_type=authorization_code&code='+code
     })
     .then(res=> res.json())
     .then(data=> response = data)
