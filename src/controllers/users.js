@@ -30,6 +30,7 @@ var async = require("async");
 const { EarningsData } = require("../models/Earnings");
 const NEW_USER_AVATAR_EVENT = "newAvatar";
 const NEW_UPDATE_BALANCE_EVENT = "updateBalance";
+const NEW_EPIC_VERIFIED_EVENT = "newEpic";
 
 const num_formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -441,46 +442,83 @@ const getUserDeposits = async (req, res) => {
 };
 
 const setTempEpic = async (req, res) => {
-  const epic = req.body.epic.toLowerCase();
+  const code = req.body.code;
   const userToken = getUserToken(req);
   const username = await getUsernameFromToken(userToken);
-
-  VerifyEpicData.findOne({ epic: epic }, (err, epicData) => {
-    if (epicData) {
-      // console.log("This epic is already waiting for a verification.");
-      return res
-        .status(409)
-        .send("This epic is already waiting for a verification.");
-    } else {
-      if (!epic || !username) {
-        // console.log("missing epic or username");
-        return res.status(409).send("Epic or username missing.");
-      } else {
-        VerifyEpicData.findOne({ username: username }, (err, epicData) => {
-          if (epicData) {
-            if (epicData.epic) {
-              // console.log("already have an epic");
-              return res
-                .status(409)
-                .send("You already have a pending Epic Verification.");
-            } else if (!epicData.epic) {
-              epicData.epic = epic;
-              epicData.save();
-              return res.status(200).send("Successfully updated epic.");
-            }
-          } else {
-            var tempEpic = new VerifyEpicData({
-              epic: epic,
-              username: username,
-              id: "",
-            });
-            tempEpic.save();
-            return res.status(200).send("Created temporary Epic verification.");
-          }
-        });
-      }
+  if(!req.body.reset){
+    let response ='';
+     await fetch('https://oauth.battle.net/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + btoa('aca89babaad748969206b642d5e9623f:SkVfwSDsdK11DntF56RCyh5cjpB1TabP')
+      },
+      body: 'redirect_uri=http://localhost:3000/profile/accounts&scope=&grant_type=authorization_code&code='+code
+    })
+    .then(res=> res.json())
+    .then(data=> response = data)
+    let userBattleNetInfo = '';
+     await fetch('https://oauth.battle.net/userinfo?access_token='+response.access_token)
+    .then(res=> res.json())
+    .then(data=> userBattleNetInfo = data)
+    console.log('userBattleNetInfo',userBattleNetInfo.battletag)
+    const epic = userBattleNetInfo.battletag;
+    if(epic){
+      getUser(username, (user) => {
+        user.epic = epic;
+        user.save();
+        io.in(user.epic).emit(
+          NEW_EPIC_VERIFIED_EVENT,
+          epic
+        );
+        return res.status(200).send({ username });
+      });
     }
-  });
+  }
+  else{
+    getUser(username, (user) => {
+      user.epic ="";
+      user.save();
+      return res
+      .status(200)
+      .send("Successfully reset your Battle.net account.");    });
+  }
+  // VerifyEpicData.findOne({ epic: epic }, (err, epicData) => {
+  //   if (epicData) {
+  //     // console.log("This epic is already waiting for a verification.");
+  //     return res
+  //       .status(409)
+  //       .send("This epic is already waiting for a verification.");
+  //   } else {
+  //     if (!epic || !username) {
+  //       // console.log("missing epic or username");
+  //       return res.status(409).send("Epic or username missing.");
+  //     } else {
+  //       VerifyEpicData.findOne({ username: username }, (err, epicData) => {
+  //         if (epicData) {
+  //           if (epicData.epic) {
+  //             // console.log("already have an epic");
+  //             return res
+  //               .status(409)
+  //               .send("You already have a pending Epic Verification.");
+  //           } else if (!epicData.epic) {
+  //             epicData.epic = epic;
+  //             epicData.save();
+  //             return res.status(200).send("Successfully updated epic.");
+  //           }
+  //         } else {
+  //           var tempEpic = new VerifyEpicData({
+  //             epic: epic,
+  //             username: username,
+  //             id: "",
+  //           });
+  //           tempEpic.save();
+  //           return res.status(200).send("Created temporary Epic verification.");
+  //         }
+  //       });
+  //     }
+  //   }
+  // });
 };
 
 // const setEpicData = (req, res) => {

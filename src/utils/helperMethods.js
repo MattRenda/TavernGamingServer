@@ -21,6 +21,7 @@ const {
 } = require("../models/BracketTournament");
 const { each } = require("async");
 const jwt = require("jsonwebtoken");
+var postmark = require("postmark");
 var client = new postmark.Client(process.env.POSTMARK_KEY);
 
 const {
