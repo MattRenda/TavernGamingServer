@@ -467,10 +467,6 @@ const setTempEpic = async (req, res) => {
       getUser(username, (user) => {
         user.epic = epic;
         user.save();
-        io.in(user.epic).emit(
-          NEW_EPIC_VERIFIED_EVENT,
-          epic
-        );
         return res.status(200).send({ username });
       });
     }
